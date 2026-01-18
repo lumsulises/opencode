@@ -167,6 +167,21 @@ export namespace SessionProcessor {
                       })
                     }
                   }
+
+                  if (value.toolName === "invalid") {
+                    try {
+                      const invalidInput = typeof value.input === "string" ? JSON.parse(value.input) : value.input
+                      if (invalidInput.tool && invalidInput.error) {
+                        await Bus.publish(Session.Event.ToolUnavailable, {
+                          sessionID: input.sessionID,
+                          toolName: invalidInput.tool,
+                          error: invalidInput.error,
+                        })
+                      }
+                    } catch {
+                      // ignore parsing errors
+                    }
+                  }
                   break
                 }
                 case "tool-result": {

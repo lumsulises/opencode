@@ -125,6 +125,14 @@ export namespace Session {
         error: MessageV2.Assistant.shape.error,
       }),
     ),
+    ToolUnavailable: BusEvent.define(
+      "session.tool_unavailable",
+      z.object({
+        sessionID: z.string(),
+        toolName: z.string(),
+        error: z.string(),
+      }),
+    ),
   }
 
   export const create = fn(
